@@ -1,1 +1,1 @@
-# Soloto-Solana-DApp
+# SOLOTO SOLANA DAPP!
