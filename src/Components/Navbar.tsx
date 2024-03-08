@@ -254,12 +254,12 @@ const Navbar = () => {
 
                                             {/* ============= Deposit ============= */}
 
-                                            <Dialog>
-                                                <DialogTrigger>
-                                                    <Button className="font-bold text-[0.8rem] px-6 py-[1.2rem] bg-[#63499D] hover:bg-[#4d3386] text-white rounded-2xl tracking-widest border-b-4 border-[#796B98]">
-                                                        DEPOSIT
-                                                    </Button>
-                                                </DialogTrigger>
+                                            {/* <Dialog>
+                                                <DialogTrigger> */}
+                                            <Button className="font-bold text-[0.8rem] px-6 py-[1.2rem] bg-[#63499D] hover:bg-[#4d3386] text-white rounded-2xl tracking-widest border-b-4 border-[#796B98]">
+                                                DEPOSIT
+                                            </Button>
+                                            {/* </DialogTrigger>
 
                                                 <DialogContent
                                                     className="w-[1090px] px-3 !box shadow-lg backdrop-blur-lg"
@@ -270,14 +270,15 @@ const Navbar = () => {
                                                     closeClass="pr-4 pt-3"
                                                     close="w-8 h-8"
                                                     hide="hidden"
-                                                >
-                                                    <DialogHeader className="px-2 py-2">
+                                                > */}
+
+                                            {/* <DialogHeader className="px-2 py-2">
                                                         <DialogTitle className="text-[24px] md:pl-2 !font-normal text-left">
                                                             Deposit
                                                         </DialogTitle>
-                                                    </DialogHeader>
+                                                    </DialogHeader> */}
 
-                                                    <DialogDescription className="px-2">
+                                            {/* <DialogDescription className="px-2">
                                                         <div className="flex justify-between gap-2 py-2 px-2">
                                                             <h1 className="text-[16px] text-white">
                                                                 Select Coin
@@ -292,9 +293,9 @@ const Navbar = () => {
                                                                     144.35 USD
                                                                 </h1>
                                                             </div>
-                                                        </div>
+                                                        </div> */}
 
-                                                        <div className="modalOption flex justify-between items-center px-2 mx-1 mt-6 mb-3">
+                                            {/* <div className="modalOption flex justify-between items-center px-2 mx-1 mt-6 mb-3">
                                                             <div className="flex gap-2 items-center px-2 py-3 my-1">
                                                                 <Image
                                                                     src={"solana.svg"}
@@ -310,11 +311,11 @@ const Navbar = () => {
                                                                 <h1 className="text-[16px]">
                                                                     (0.581) SOL
                                                                 </h1>
-                                                            </div>
+                                                            </div> */}
 
-                                                            {/* ============= Select Coin In Deposit Modal ============= */}
+                                            {/* ============= Select Coin In Deposit Modal ============= */}
 
-                                                            <Dialog>
+                                            {/* <Dialog>
                                                                 <DialogTrigger>
                                                                     <ChevronDown className="text-white w-7 pr-2 cursor-pointer" />
                                                                 </DialogTrigger>
@@ -440,8 +441,8 @@ const Navbar = () => {
                                                                         </div>
                                                                     </DialogDescription>
                                                                 </DialogContent>
-                                                            </Dialog>
-                                                        </div>
+                                                            </Dialog> */}
+                                            {/* </div>
 
                                                         <div className="flex items-center gap-3 mx-1">
                                                             <div className="modalOption flex justify-between items-center px-2">
@@ -457,9 +458,9 @@ const Navbar = () => {
                                                                         0.0022 SOL
                                                                     </h1>
                                                                 </div>
-                                                            </div>
+                                                            </div> */}
 
-                                                            <div className="modalOption flex justify-between items-center px-2">
+                                            {/* <div className="modalOption flex justify-between items-center px-2">
                                                                 <div className="flex gap-2 items-center px-2 py-3">
                                                                     <Image
                                                                         src={"usdc.svg"}
@@ -477,9 +478,9 @@ const Navbar = () => {
 
                                                         <h1 className="text-[16px] text-white my-8 px-2">
                                                             Number Of Tickets
-                                                        </h1>
+                                                        </h1> */}
 
-                                                        <div className="modalOption flex justify-between items-center px-2 mx-1 mt-6 mb-1">
+                                            {/* <div className="modalOption flex justify-between items-center px-2 mx-1 mt-6 mb-1">
                                                             <div className="flex gap-2 items-center px-2 py-3 my-1">
                                                                 <Image
                                                                     src={"/assets/wallet.png"}
@@ -491,11 +492,11 @@ const Navbar = () => {
                                                                 <h1 className="text-white text-[16px]">
                                                                     Wallet Address
                                                                 </h1>
-                                                            </div>
+                                                            </div> */}
 
-                                                            {/* ============= Wallet Address ============= */}
+                                            {/* ============= Wallet Address ============= */}
 
-                                                            <Dialog>
+                                            {/* <Dialog>
                                                                 <DialogTrigger>
                                                                     <ChevronRight className="text-white w-7 pr-2 cursor-pointer" />
                                                                 </DialogTrigger>
@@ -517,8 +518,8 @@ const Navbar = () => {
                                                                         </DialogTitle>
                                                                     </DialogHeader>
                                                                 </DialogContent>
-                                                            </Dialog>
-                                                        </div>
+                                                            </Dialog> */}
+                                            {/* </div>
 
                                                         <div className="modalOption flex justify-between items-center px-2 mx-1 my-4">
                                                             <div className="flex gap-2 items-center px-2 py-3 my-1">
@@ -532,13 +533,13 @@ const Navbar = () => {
                                                                 <h1 className="text-white text-[16px]">
                                                                     Web3 Wallet
                                                                 </h1>
-                                                            </div>
+                                                            </div> */}
 
-                                                            <ChevronRight className="text-white w-7 pr-2 cursor-pointer" />
+                                            {/* <ChevronRight className="text-white w-7 pr-2 cursor-pointer" />
                                                         </div>
                                                     </DialogDescription>
-                                                </DialogContent>
-                                            </Dialog>
+                                                </DialogContent> */}
+                                            {/* </Dialog> */}
                                         </div>
                                     </DialogDescription>
 
