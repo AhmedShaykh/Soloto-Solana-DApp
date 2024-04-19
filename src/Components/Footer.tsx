@@ -67,21 +67,9 @@ const Footer = () => {
 
                 <hr className="border-slate-600 my-6" />
 
-                <div className="my-1 flex flex-col lg:flex-row gap-5 justify-between items-center">
-                    <p className="text-center text-xs md:text-md text-white text-opacity-70">
-                        Copyright © 2024 soloto.io - All rights reserved.
-                    </p>
-
-                    <p className="text-center text-xs md:text-md text-white text-opacity-70">
-                        Powered By: {""}
-
-                        <Link
-                            href={"http://www.brdigitech.com/"}
-                        >
-                            Button R Digitech (bRd)
-                        </Link>
-                    </p>
-                </div>
+                <p className="text-center text-xs md:text-md text-white text-opacity-70 my-1">
+                    Copyright © 2024 soloto.io - All rights reserved.
+                </p>
             </div>
         </div>
     )

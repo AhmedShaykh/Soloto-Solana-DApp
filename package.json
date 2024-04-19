@@ -1,5 +1,5 @@
 {
-  "name": "soloto-solana",
+  "name": "soloto-dapp",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -17,6 +17,8 @@
     "@radix-ui/react-icons": "^1.3.0",
     "@radix-ui/react-slot": "^1.0.2",
     "@radix-ui/react-tabs": "^1.0.4",
+    "@tanstack/react-query": "^5.29.2",
+    "@web3modal/wagmi": "^4.1.9",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
     "cmdk": "^0.2.1",
@@ -26,7 +28,9 @@
     "react": "^18",
     "react-dom": "^18",
     "tailwind-merge": "^2.2.1",
-    "tailwindcss-animate": "^1.0.7"
+    "tailwindcss-animate": "^1.0.7",
+    "viem": "^2.9.21",
+    "wagmi": "^2.5.20"
   },
   "devDependencies": {
     "@types/node": "^20",

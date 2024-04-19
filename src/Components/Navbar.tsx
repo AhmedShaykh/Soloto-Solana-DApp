@@ -1,3 +1,4 @@
+"use client";
 import { Button } from "@/Components/ui/button";
 import {
     DropdownMenu,
@@ -8,6 +9,7 @@ import {
 import { Command, CommandInput } from "@/Components/ui/command";
 import {
     Dialog,
+    DialogClose,
     DialogContent,
     DialogDescription,
     DialogHeader,
@@ -16,10 +18,20 @@ import {
 } from "@/Components/ui/dialog";
 import { Checkbox } from "@/Components/ui/checkbox";
 import { myFontBold } from "@/static/font";
+import { formatAddress } from "@/lib/utils";
 import { ChevronDown, ChevronRight } from "lucide-react";
+import { useWeb3Modal } from "@web3modal/wagmi/react";
+import { useAccount, useDisconnect } from "wagmi";
 import Image from "next/image";
 
 const Navbar = () => {
+
+    const { address, isConnected, isDisconnected } = useAccount();
+
+    const { open } = useWeb3Modal();
+
+    const { disconnect } = useDisconnect();
+
     return (
         <div className="md:bg-[#3a365a] py-3 z-60 md:bg-opacity-20 md:backdrop-blur-lg md:border-opacity-20">
             <div className="wrapper">
@@ -30,236 +42,237 @@ const Navbar = () => {
                         alt="Soloto Logo"
                     />
 
-                    <div className="flex items-center justify-center gap-3 z-100">
+                    {isConnected && (
+                        <div className="flex items-center justify-center gap-3 z-100">
 
-                        {/* ============= Search Coins ============= */}
+                            {/* ============= Search Coins ============= */}
 
-                        <DropdownMenu>
-                            <DropdownMenuTrigger className="flex items-center gap-1 md:gap-2 bg-slate-500 px-2 py-1 rounded-2xl bg-opacity-20 shadow backdrop-blur-lg">
-                                <img
-                                    className="w-30 h-30 md:w-30 md:h-30 mr-1 md:mr-0"
-                                    src={"solanapre.svg"}
-                                    alt="solana Logo"
-                                />
-
-                                <h1 className="text-sm md:text-md font-medium">
-                                    0.000SOL
-                                </h1>
-
-                                <ChevronDown className="ml-2 md:ml-6 w-4" />
-                            </DropdownMenuTrigger>
-
-                            <DropdownMenuContent
-                                className="ml-16 md:ml-0 md:mx-0 mt-4 md:mt-2 max-w-[240px] rounded-2xl p-3 md:p-4 bg-opacity-20 shadow backdrop-blur-lg"
-                                style={{
-                                    background: "linear-gradient(205.66deg, rgba(21, 6, 55, 0.6) 5.45%, rgba(43, 18, 96, 0.6) 97.2%)",
-                                    border: "1.61144px solid rgba(255, 255, 255, 0.07)",
-                                    borderRadius: "12.8915px"
-                                }}
-                            >
-                                <Command className="bg-slate-600 rounded-2xl bg-opacity-20 backdrop-blur-lg border-[none]">
-                                    <CommandInput css="h-6 w-6" placeholder="Search Coins" />
-                                </Command>
-
-                                <DropdownMenuLabel className="flex flex-col gap-5 py-4 md:py-5">
-                                    <div className="flex gap-2 items-center">
-                                        <Checkbox />
-
-                                        <span className="text-xs font-normal">
-                                            Display USD Value
-                                        </span>
-                                    </div>
-
-                                    <div className="flex gap-2 items-center">
-                                        <Checkbox />
-
-                                        <span className="text-xs font-normal">
-                                            Hide Small Balances
-                                        </span>
-                                    </div>
-                                </DropdownMenuLabel>
-
-                                <hr
-                                    style={{
-                                        border: "0.602144px solid #FFFFFF",
-                                        opacity: 0.1
-                                    }}
-                                />
-
-                                <div className="flex items-center gap-3 py-2 md:py-3">
-                                    <Image
-                                        src={"solana.svg"}
+                            <DropdownMenu>
+                                <DropdownMenuTrigger className="flex items-center gap-1 md:gap-2 bg-slate-500 px-2 py-1 rounded-2xl bg-opacity-20 shadow backdrop-blur-lg">
+                                    <img
+                                        className="w-30 h-30 md:w-30 md:h-30 mr-1 md:mr-0"
+                                        src={"solanapre.svg"}
                                         alt="solana Logo"
-                                        width={28}
-                                        height={28}
                                     />
 
-                                    <h1 className="font-medium text-[0.8rem] md:text-[.9rem]">
-                                        0.000 SOL
+                                    <h1 className="text-sm md:text-md font-medium">
+                                        0.000SOL
                                     </h1>
-                                </div>
 
-                                <hr
+                                    <ChevronDown className="ml-2 md:ml-6 w-4" />
+                                </DropdownMenuTrigger>
+
+                                <DropdownMenuContent
+                                    className="ml-16 md:ml-0 md:mx-0 mt-4 md:mt-2 max-w-[240px] rounded-2xl p-3 md:p-4 bg-opacity-20 shadow backdrop-blur-lg"
                                     style={{
-                                        border: "0.602144px solid #FFFFFF",
-                                        opacity: 0.1
+                                        background: "linear-gradient(205.66deg, rgba(21, 6, 55, 0.6) 5.45%, rgba(43, 18, 96, 0.6) 97.2%)",
+                                        border: "1.61144px solid rgba(255, 255, 255, 0.07)",
+                                        borderRadius: "12.8915px"
                                     }}
-                                />
-
-                                <div className="flex items-center gap-3 py-2 md:py-3">
-                                    <Image
-                                        src={"usdt.svg"}
-                                        alt="usdt Logo"
-                                        width={28}
-                                        height={28}
-                                    />
-
-                                    <h1 className="font-medium text-[0.8rem] md:text-[.9rem]">
-                                        0.000 USDT
-                                    </h1>
-                                </div>
-
-                                <hr
-                                    style={{
-                                        border: "0.602144px solid #FFFFFF",
-                                        opacity: 0.1
-                                    }}
-                                />
-
-                                <div className="flex items-center gap-3 py-2 md:py-3">
-                                    <Image
-                                        src={"usdc.svg"}
-                                        alt="usdc Logo"
-                                        width={28}
-                                        height={28}
-                                    />
-
-                                    <h1 className="font-medium text-[0.8rem] md:text-[.9rem]">
-                                        0.000 USDC
-                                    </h1>
-                                </div>
-                            </DropdownMenuContent>
-                        </DropdownMenu>
-
-                        {/* ============= Wallet ============= */}
-
-                        <Dialog>
-                            <DialogTrigger>
-                                <Button
-                                    className={`font-semibold text-xs px-5 pt-2 hidden md:block bg-[#63499D] hover:bg-[#4d3386] text-white rounded-xl tracking-widest border-b-[3px] border-[#796B98]`}
                                 >
-                                    DEPOSIT
-                                </Button>
+                                    <Command className="bg-slate-600 rounded-2xl bg-opacity-20 backdrop-blur-lg border-[none]">
+                                        <CommandInput css="h-6 w-6" placeholder="Search Coins" />
+                                    </Command>
 
-                                <Button
-                                    className={`font-semibold text-xs px-3 pt-[0.4rem] block md:hidden bg-[#63499D] hover:bg-[#4d3386] text-white rounded-2xl tracking-widest border-b-[3px] border-[#796B98]`}
-                                >
-                                    <Image
-                                        src={"upload.svg"}
-                                        alt="upload Logo"
-                                        width={18}
-                                        height={18}
+                                    <DropdownMenuLabel className="flex flex-col gap-5 py-4 md:py-5">
+                                        <div className="flex gap-2 items-center">
+                                            <Checkbox />
+
+                                            <span className="text-xs font-normal">
+                                                Display USD Value
+                                            </span>
+                                        </div>
+
+                                        <div className="flex gap-2 items-center">
+                                            <Checkbox />
+
+                                            <span className="text-xs font-normal">
+                                                Hide Small Balances
+                                            </span>
+                                        </div>
+                                    </DropdownMenuLabel>
+
+                                    <hr
+                                        style={{
+                                            border: "0.602144px solid #FFFFFF",
+                                            opacity: 0.1
+                                        }}
                                     />
-                                </Button>
-                            </DialogTrigger>
 
-                            <DialogContent
-                                className="px-3 !box shadow-lg backdrop-blur-lg"
-                                style={{
-                                    border: "3px solid rgba(255, 255, 255, 0.07)",
-                                    borderRadius: "40px"
-                                }}
-                                closeClass="pr-4 pt-3"
-                                close="w-6 md:w-8 h-6 md:h-8"
-                                hide="hidden"
-                            >
-                                <DialogHeader className="px-2 py-2">
-                                    <DialogTitle className="text-[24px] md:pl-2 md:text-[29.9034px] !font-normal text-left">Wallet</DialogTitle>
+                                    <div className="flex items-center gap-3 py-2 md:py-3">
+                                        <Image
+                                            src={"solana.svg"}
+                                            alt="solana Logo"
+                                            width={28}
+                                            height={28}
+                                        />
 
-                                    <DialogDescription className="hidden md:flex gap-3 items-center py-2 pl-2">
-                                        <div className="flex items-center gap-2 modalOption px-[0.6rem] py-[.3rem]">
-                                            <img src="/assets/search.png" alt="search" />
-
-                                            <span className="text-[10.5714px] text-white tracking-wider">Find Missing Deposit</span>
-                                        </div>
-
-                                        <div className="flex items-center gap-2 modalOption px-[0.6rem] py-[.3rem]">
-                                            <img src="/assets/wallet.png" alt="wallet" />
-
-                                            <span className="text-[10.5714px] text-white tracking-wider">Deposit Withdraw History</span>
-                                        </div>
-                                    </DialogDescription>
-
-                                    <DialogDescription className="flex justify-between gap-2 py-1 px-2">
-                                        <div className="w-[150px] sm:w-auto md:w-[205px]">
-                                            <Command style={{
-                                                background: "rgba(255, 255, 255, 0.05)",
-                                                borderRadius: "15px"
-                                            }}>
-                                                <CommandInput className="h-9 md:h-10" css="h-6 w-6" placeholder="Search Coins" />
-                                            </Command>
-                                        </div>
-
-                                        <div className="flex items-center gap-2 pr-2">
-                                            <img src="/assets/hide.png" alt="hide" />
-
-                                            <span className="text-[10.5714px] text-white tracking-wider">Hide Low Balances</span>
-                                        </div>
-                                    </DialogDescription>
-
-                                    <DialogDescription className="flex items-center justify-between md:justify-start gap-4 py-2 px-4">
-                                        <h1 className="text-[0.95rem] tracking-wide md:w-[130px] lg:w-[145px]">
-                                            Coin
-                                        </h1>
-
-                                        <h1 className="text-[0.95rem] tracking-wide md:w-[130px] lg:w-[145px]">
-                                            My Wallet
-                                        </h1>
-
-                                        <h1 className="text-[0.95rem] tracking-wide md:w-[130px] lg:w-[145px]">
-                                            $USD
-                                        </h1>
-
-                                        <h1 className="text-[0.95rem] tracking-wide hidden md:block flex-1 text-right">
-                                            Action
-                                        </h1>
-                                    </DialogDescription>
-
-                                    <DialogDescription className="flex items-center justify-between md:justify-start gap-4 py-2 px-4">
-                                        <div className="flex items-center gap-2 w-[36px] md:w-[130px] lg:w-[145px]">
-                                            <Image
-                                                src={"solana.svg"}
-                                                alt="solana Logo"
-                                                width={30}
-                                                height={30}
-                                            />
-
-                                            <h1 className="text-sm md:text-[1rem] tracking-wide text-white">
-                                                SOL
-                                            </h1>
-                                        </div>
-
-                                        <h1 className="text-sm md:text-[1rem] tracking-wide text-white md:w-[130px] lg:w-[145px]">
+                                        <h1 className="font-medium text-[0.8rem] md:text-[.9rem]">
                                             0.000 SOL
                                         </h1>
+                                    </div>
 
-                                        <h1 className="text-sm md:text-[1rem] tracking-wide text-white md:w-[130px] lg:w-[145px]">
-                                            $0.00
+                                    <hr
+                                        style={{
+                                            border: "0.602144px solid #FFFFFF",
+                                            opacity: 0.1
+                                        }}
+                                    />
+
+                                    <div className="flex items-center gap-3 py-2 md:py-3">
+                                        <Image
+                                            src={"usdt.svg"}
+                                            alt="usdt Logo"
+                                            width={28}
+                                            height={28}
+                                        />
+
+                                        <h1 className="font-medium text-[0.8rem] md:text-[.9rem]">
+                                            0.000 USDT
                                         </h1>
+                                    </div>
 
-                                        <div className="hidden md:flex items-center gap-3 flex-1 justify-end">
-                                            <Button className="font-bold text-[0.8rem] px-6 py-[1.2rem] bg-[#2D71B4] hover:bg-[#1d7bd3] text-white rounded-2xl tracking-widest border-b-4 border-[#175594]">
-                                                WITHDRAW
-                                            </Button>
+                                    <hr
+                                        style={{
+                                            border: "0.602144px solid #FFFFFF",
+                                            opacity: 0.1
+                                        }}
+                                    />
 
-                                            {/* ============= Deposit ============= */}
+                                    <div className="flex items-center gap-3 py-2 md:py-3">
+                                        <Image
+                                            src={"usdc.svg"}
+                                            alt="usdc Logo"
+                                            width={28}
+                                            height={28}
+                                        />
 
-                                            {/* <Dialog>
+                                        <h1 className="font-medium text-[0.8rem] md:text-[.9rem]">
+                                            0.000 USDC
+                                        </h1>
+                                    </div>
+                                </DropdownMenuContent>
+                            </DropdownMenu>
+
+                            {/* ============= Wallet ============= */}
+
+                            <Dialog>
+                                <DialogTrigger>
+                                    <Button
+                                        className={`font-semibold text-xs px-5 pt-2 hidden md:block bg-[#63499D] hover:bg-[#4d3386] text-white rounded-xl tracking-widest border-b-[3px] border-[#796B98]`}
+                                    >
+                                        DEPOSIT
+                                    </Button>
+
+                                    <Button
+                                        className={`font-semibold text-xs px-3 pt-[0.4rem] block md:hidden bg-[#63499D] hover:bg-[#4d3386] text-white rounded-2xl tracking-widest border-b-[3px] border-[#796B98]`}
+                                    >
+                                        <Image
+                                            src={"upload.svg"}
+                                            alt="upload Logo"
+                                            width={18}
+                                            height={18}
+                                        />
+                                    </Button>
+                                </DialogTrigger>
+
+                                <DialogContent
+                                    className="px-3 !box shadow-lg backdrop-blur-lg"
+                                    style={{
+                                        border: "3px solid rgba(255, 255, 255, 0.07)",
+                                        borderRadius: "40px"
+                                    }}
+                                    closeClass="pr-4 pt-3"
+                                    close="w-6 md:w-8 h-6 md:h-8"
+                                    hide="hidden"
+                                >
+                                    <DialogHeader className="px-2 py-2">
+                                        <DialogTitle className="text-[24px] md:pl-2 md:text-[29.9034px] !font-normal text-left">Wallet</DialogTitle>
+
+                                        <DialogDescription className="hidden md:flex gap-3 items-center py-2 pl-2">
+                                            <div className="flex items-center gap-2 modalOption px-[0.6rem] py-[.3rem]">
+                                                <img src="/assets/search.png" alt="search" />
+
+                                                <span className="text-[10.5714px] text-white tracking-wider">Find Missing Deposit</span>
+                                            </div>
+
+                                            <div className="flex items-center gap-2 modalOption px-[0.6rem] py-[.3rem]">
+                                                <img src="/assets/wallet.png" alt="wallet" />
+
+                                                <span className="text-[10.5714px] text-white tracking-wider">Deposit Withdraw History</span>
+                                            </div>
+                                        </DialogDescription>
+
+                                        <DialogDescription className="flex justify-between gap-2 py-1 px-2">
+                                            <div className="w-[150px] sm:w-auto md:w-[205px]">
+                                                <Command style={{
+                                                    background: "rgba(255, 255, 255, 0.05)",
+                                                    borderRadius: "15px"
+                                                }}>
+                                                    <CommandInput className="h-9 md:h-10" css="h-6 w-6" placeholder="Search Coins" />
+                                                </Command>
+                                            </div>
+
+                                            <div className="flex items-center gap-2 pr-2">
+                                                <img src="/assets/hide.png" alt="hide" />
+
+                                                <span className="text-[10.5714px] text-white tracking-wider">Hide Low Balances</span>
+                                            </div>
+                                        </DialogDescription>
+
+                                        <DialogDescription className="flex items-center justify-between md:justify-start gap-4 py-2 px-4">
+                                            <h1 className="text-[0.95rem] tracking-wide md:w-[130px] lg:w-[145px]">
+                                                Coin
+                                            </h1>
+
+                                            <h1 className="text-[0.95rem] tracking-wide md:w-[130px] lg:w-[145px]">
+                                                My Wallet
+                                            </h1>
+
+                                            <h1 className="text-[0.95rem] tracking-wide md:w-[130px] lg:w-[145px]">
+                                                $USD
+                                            </h1>
+
+                                            <h1 className="text-[0.95rem] tracking-wide hidden md:block flex-1 text-right">
+                                                Action
+                                            </h1>
+                                        </DialogDescription>
+
+                                        <DialogDescription className="flex items-center justify-between md:justify-start gap-4 py-2 px-4">
+                                            <div className="flex items-center gap-2 w-[36px] md:w-[130px] lg:w-[145px]">
+                                                <Image
+                                                    src={"solana.svg"}
+                                                    alt="solana Logo"
+                                                    width={30}
+                                                    height={30}
+                                                />
+
+                                                <h1 className="text-sm md:text-[1rem] tracking-wide text-white">
+                                                    SOL
+                                                </h1>
+                                            </div>
+
+                                            <h1 className="text-sm md:text-[1rem] tracking-wide text-white md:w-[130px] lg:w-[145px]">
+                                                0.000 SOL
+                                            </h1>
+
+                                            <h1 className="text-sm md:text-[1rem] tracking-wide text-white md:w-[130px] lg:w-[145px]">
+                                                $0.00
+                                            </h1>
+
+                                            <div className="hidden md:flex items-center gap-3 flex-1 justify-end">
+                                                <Button className="font-bold text-[0.8rem] px-6 py-[1.2rem] bg-[#2D71B4] hover:bg-[#1d7bd3] text-white rounded-2xl tracking-widest border-b-4 border-[#175594]">
+                                                    WITHDRAW
+                                                </Button>
+
+                                                {/* ============= Deposit ============= */}
+
+                                                {/* <Dialog>
                                                 <DialogTrigger> */}
-                                            <Button className="font-bold text-[0.8rem] px-6 py-[1.2rem] bg-[#63499D] hover:bg-[#4d3386] text-white rounded-2xl tracking-widest border-b-4 border-[#796B98]">
-                                                DEPOSIT
-                                            </Button>
-                                            {/* </DialogTrigger>
+                                                <Button className="font-bold text-[0.8rem] px-6 py-[1.2rem] bg-[#63499D] hover:bg-[#4d3386] text-white rounded-2xl tracking-widest border-b-4 border-[#796B98]">
+                                                    DEPOSIT
+                                                </Button>
+                                                {/* </DialogTrigger>
 
                                                 <DialogContent
                                                     className="w-[1090px] px-3 !box shadow-lg backdrop-blur-lg"
@@ -272,13 +285,13 @@ const Navbar = () => {
                                                     hide="hidden"
                                                 > */}
 
-                                            {/* <DialogHeader className="px-2 py-2">
+                                                {/* <DialogHeader className="px-2 py-2">
                                                         <DialogTitle className="text-[24px] md:pl-2 !font-normal text-left">
                                                             Deposit
                                                         </DialogTitle>
                                                     </DialogHeader> */}
 
-                                            {/* <DialogDescription className="px-2">
+                                                {/* <DialogDescription className="px-2">
                                                         <div className="flex justify-between gap-2 py-2 px-2">
                                                             <h1 className="text-[16px] text-white">
                                                                 Select Coin
@@ -295,7 +308,7 @@ const Navbar = () => {
                                                             </div>
                                                         </div> */}
 
-                                            {/* <div className="modalOption flex justify-between items-center px-2 mx-1 mt-6 mb-3">
+                                                {/* <div className="modalOption flex justify-between items-center px-2 mx-1 mt-6 mb-3">
                                                             <div className="flex gap-2 items-center px-2 py-3 my-1">
                                                                 <Image
                                                                     src={"solana.svg"}
@@ -313,9 +326,9 @@ const Navbar = () => {
                                                                 </h1>
                                                             </div> */}
 
-                                            {/* ============= Select Coin In Deposit Modal ============= */}
+                                                {/* ============= Select Coin In Deposit Modal ============= */}
 
-                                            {/* <Dialog>
+                                                {/* <Dialog>
                                                                 <DialogTrigger>
                                                                     <ChevronDown className="text-white w-7 pr-2 cursor-pointer" />
                                                                 </DialogTrigger>
@@ -442,7 +455,7 @@ const Navbar = () => {
                                                                     </DialogDescription>
                                                                 </DialogContent>
                                                             </Dialog> */}
-                                            {/* </div>
+                                                {/* </div>
 
                                                         <div className="flex items-center gap-3 mx-1">
                                                             <div className="modalOption flex justify-between items-center px-2">
@@ -460,7 +473,7 @@ const Navbar = () => {
                                                                 </div>
                                                             </div> */}
 
-                                            {/* <div className="modalOption flex justify-between items-center px-2">
+                                                {/* <div className="modalOption flex justify-between items-center px-2">
                                                                 <div className="flex gap-2 items-center px-2 py-3">
                                                                     <Image
                                                                         src={"usdc.svg"}
@@ -480,7 +493,7 @@ const Navbar = () => {
                                                             Number Of Tickets
                                                         </h1> */}
 
-                                            {/* <div className="modalOption flex justify-between items-center px-2 mx-1 mt-6 mb-1">
+                                                {/* <div className="modalOption flex justify-between items-center px-2 mx-1 mt-6 mb-1">
                                                             <div className="flex gap-2 items-center px-2 py-3 my-1">
                                                                 <Image
                                                                     src={"/assets/wallet.png"}
@@ -494,9 +507,9 @@ const Navbar = () => {
                                                                 </h1>
                                                             </div> */}
 
-                                            {/* ============= Wallet Address ============= */}
+                                                {/* ============= Wallet Address ============= */}
 
-                                            {/* <Dialog>
+                                                {/* <Dialog>
                                                                 <DialogTrigger>
                                                                     <ChevronRight className="text-white w-7 pr-2 cursor-pointer" />
                                                                 </DialogTrigger>
@@ -519,7 +532,7 @@ const Navbar = () => {
                                                                     </DialogHeader>
                                                                 </DialogContent>
                                                             </Dialog> */}
-                                            {/* </div>
+                                                {/* </div>
 
                                                         <div className="modalOption flex justify-between items-center px-2 mx-1 my-4">
                                                             <div className="flex gap-2 items-center px-2 py-3 my-1">
@@ -535,190 +548,199 @@ const Navbar = () => {
                                                                 </h1>
                                                             </div> */}
 
-                                            {/* <ChevronRight className="text-white w-7 pr-2 cursor-pointer" />
+                                                {/* <ChevronRight className="text-white w-7 pr-2 cursor-pointer" />
                                                         </div>
                                                     </DialogDescription>
                                                 </DialogContent> */}
-                                            {/* </Dialog> */}
-                                        </div>
-                                    </DialogDescription>
+                                                {/* </Dialog> */}
+                                            </div>
+                                        </DialogDescription>
 
-                                    <DialogDescription className="flex items-center justify-between md:justify-start gap-4 py-2 px-4">
-                                        <div className="flex items-center gap-2 w-[36px] md:w-[130px] lg:w-[145px]">
-                                            <Image
-                                                src={"usdc.svg"}
-                                                alt="usdc Logo"
-                                                width={30}
-                                                height={30}
-                                            />
+                                        <DialogDescription className="flex items-center justify-between md:justify-start gap-4 py-2 px-4">
+                                            <div className="flex items-center gap-2 w-[36px] md:w-[130px] lg:w-[145px]">
+                                                <Image
+                                                    src={"usdc.svg"}
+                                                    alt="usdc Logo"
+                                                    width={30}
+                                                    height={30}
+                                                />
 
-                                            <h1 className="text-sm md:text-[1rem] tracking-wide text-white">
-                                                USDC
+                                                <h1 className="text-sm md:text-[1rem] tracking-wide text-white">
+                                                    USDC
+                                                </h1>
+                                            </div>
+
+                                            <h1 className="text-sm md:text-[1rem] tracking-wide text-white md:w-[130px] lg:w-[145px]">
+                                                0.000 USDC
                                             </h1>
-                                        </div>
 
-                                        <h1 className="text-sm md:text-[1rem] tracking-wide text-white md:w-[130px] lg:w-[145px]">
-                                            0.000 USDC
-                                        </h1>
-
-                                        <h1 className="text-sm md:text-[1rem] tracking-wide text-white md:w-[130px] lg:w-[145px]">
-                                            $0.00
-                                        </h1>
-
-                                        <div className="hidden md:flex items-center gap-3 flex-1 justify-end">
-                                            <Button className="font-bold text-[0.8rem] px-6 py-[1.2rem] bg-[#2D71B4] hover:bg-[#1d7bd3] text-white rounded-2xl tracking-widest border-b-4 border-[#175594]">
-                                                WITHDRAW
-                                            </Button>
-
-                                            <Button className="font-bold text-[0.8rem] px-6 py-[1.2rem] bg-[#63499D] hover:bg-[#4d3386] text-white rounded-2xl tracking-widest border-b-4 border-[#796B98]">
-                                                DEPOSIT
-                                            </Button>
-                                        </div>
-                                    </DialogDescription>
-
-                                    <DialogDescription className="flex items-center justify-between md:justify-start gap-4 py-2 px-4">
-                                        <div className="flex items-center gap-2 w-[36px] md:w-[130px] lg:w-[145px]">
-                                            <Image
-                                                src={"usdt.svg"}
-                                                alt="usdt Logo"
-                                                width={30}
-                                                height={30}
-                                            />
-
-                                            <h1 className="text-sm md:text-[1rem] tracking-wide text-white">
-                                                USDT
+                                            <h1 className="text-sm md:text-[1rem] tracking-wide text-white md:w-[130px] lg:w-[145px]">
+                                                $0.00
                                             </h1>
-                                        </div>
 
-                                        <h1 className="text-sm md:text-[1rem] tracking-wide text-white md:w-[130px] lg:w-[145px]">
-                                            0.000 USDT
-                                        </h1>
+                                            <div className="hidden md:flex items-center gap-3 flex-1 justify-end">
+                                                <Button className="font-bold text-[0.8rem] px-6 py-[1.2rem] bg-[#2D71B4] hover:bg-[#1d7bd3] text-white rounded-2xl tracking-widest border-b-4 border-[#175594]">
+                                                    WITHDRAW
+                                                </Button>
 
-                                        <h1 className="text-sm md:text-[1rem] tracking-wide text-white md:w-[130px] lg:w-[145px]">
-                                            $0.00
-                                        </h1>
+                                                <Button className="font-bold text-[0.8rem] px-6 py-[1.2rem] bg-[#63499D] hover:bg-[#4d3386] text-white rounded-2xl tracking-widest border-b-4 border-[#796B98]">
+                                                    DEPOSIT
+                                                </Button>
+                                            </div>
+                                        </DialogDescription>
 
-                                        <div className="hidden md:flex items-center gap-3 flex-1 justify-end">
-                                            <Button className="font-bold text-[0.8rem] px-6 py-[1.2rem] bg-[#2D71B4] hover:bg-[#1d7bd3] text-white rounded-2xl tracking-widest border-b-4 border-[#175594]">
-                                                WITHDRAW
-                                            </Button>
+                                        <DialogDescription className="flex items-center justify-between md:justify-start gap-4 py-2 px-4">
+                                            <div className="flex items-center gap-2 w-[36px] md:w-[130px] lg:w-[145px]">
+                                                <Image
+                                                    src={"usdt.svg"}
+                                                    alt="usdt Logo"
+                                                    width={30}
+                                                    height={30}
+                                                />
 
-                                            <Button className="font-bold text-[0.8rem] px-6 py-[1.2rem] bg-[#63499D] hover:bg-[#4d3386] text-white rounded-2xl tracking-widest border-b-4 border-[#796B98]">
-                                                DEPOSIT
-                                            </Button>
-                                        </div>
-                                    </DialogDescription>
-                                </DialogHeader>
-                            </DialogContent>
-                        </Dialog>
-                    </div>
+                                                <h1 className="text-sm md:text-[1rem] tracking-wide text-white">
+                                                    USDT
+                                                </h1>
+                                            </div>
 
-                    {/* ============= SignUp ============= */}
+                                            <h1 className="text-sm md:text-[1rem] tracking-wide text-white md:w-[130px] lg:w-[145px]">
+                                                0.000 USDT
+                                            </h1>
 
-                    {/* <div className="flex items-center justify-center gap-2 md:gap-5 mx-4 md:mr-14 md:ml-4">
-                        <Button className={`${myFontBold.className} px-2 py-3 text-xs md:text-sm text-white bg-transparent hover:bg-transparent tracking-wider`}>
-                            SIGN UP
-                        </Button>
+                                            <h1 className="text-sm md:text-[1rem] tracking-wide text-white md:w-[130px] lg:w-[145px]">
+                                                $0.00
+                                            </h1>
 
-                        <Button className={`${myFontBold.className} px-4 pb-2 pt-3 md:px-6 md:pb-4 md:pt-5 text-xs md:text-sm bg-[#63499D] hover:bg-[#4d3386] text-white rounded-2xl tracking-wider border-b-4 border-[#796B98]`}>
-                            CONNECT WALLET
-                        </Button>
-                    </div> */}
+                                            <div className="hidden md:flex items-center gap-3 flex-1 justify-end">
+                                                <Button className="font-bold text-[0.8rem] px-6 py-[1.2rem] bg-[#2D71B4] hover:bg-[#1d7bd3] text-white rounded-2xl tracking-widest border-b-4 border-[#175594]">
+                                                    WITHDRAW
+                                                </Button>
 
-                    <div className="flex items-center mx-4 md:mr-14 md:ml-4">
-                        <DropdownMenu>
-                            <DropdownMenuTrigger className="flex items-center gap-1 md:gap-3 bg-transparent">
-                                <Image
-                                    src={"avatar.svg"}
-                                    alt="avatar Logo"
-                                    width={30}
-                                    height={30}
-                                />
+                                                <Button className="font-bold text-[0.8rem] px-6 py-[1.2rem] bg-[#63499D] hover:bg-[#4d3386] text-white rounded-2xl tracking-widest border-b-4 border-[#796B98]">
+                                                    DEPOSIT
+                                                </Button>
+                                            </div>
+                                        </DialogDescription>
+                                    </DialogHeader>
+                                </DialogContent>
+                            </Dialog>
+                        </div>
+                    )}
 
-                                <h1 className="hidden md:block text-sm uppercase font-semibold tracking-wide">
-                                    TheZucc126
-                                </h1>
-
-                                <ChevronDown className="md:ml-1 w-4" />
-                            </DropdownMenuTrigger>
-
-                            <DropdownMenuContent
-                                className="bg-[#3a365a] md:w-[170px] md:h-[95x] bg-opacity-20 rounded-2xl shadow backdrop-blur-lg"
-                                style={{
-                                    border: "1.61144px solid rgba(255, 255, 255, 0.07)",
-                                    borderRadius: "12.8915px"
-                                }}
+                    {isDisconnected && (
+                        <div className="flex items-center justify-center mx-4 md:mr-14 md:ml-4">
+                            <Button
+                                className={`${myFontBold.className} px-4 pb-2 pt-3 md:px-6 md:pb-4 md:pt-5 text-xs md:text-sm bg-[#63499D] hover:bg-[#4d3386] text-white rounded-2xl tracking-wider border-b-4 border-[#796B98]`}
+                                onClick={() => open()}
                             >
-                                <Dialog>
-                                    <div className="flex gap-3 items-center md:py-3 p-2 md:px-4">
-                                        <img
-                                            className="w-4 h-4"
-                                            src="/assets/wallet.png"
-                                            alt="wallet"
-                                        />
+                                CONNECT WALLET
+                            </Button>
+                        </div>
+                    )}
 
-                                        <span className="text-[0.75rem] md:text-[0.82rem] text-slate-100">Wallet</span>
-                                    </div>
-
-                                    <hr
-                                        style={{
-                                            border: "0.602144px solid #FFFFFF",
-                                            opacity: 0.1
-                                        }}
+                    {isConnected && (
+                        <div className="flex items-center mx-4 md:mr-14 md:ml-4">
+                            <DropdownMenu>
+                                <DropdownMenuTrigger className="flex items-center gap-1 md:gap-3 bg-transparent">
+                                    <Image
+                                        src={"/assets/avatar.jpg"}
+                                        className="rounded-full"
+                                        alt="Avatar"
+                                        width={30}
+                                        height={30}
                                     />
 
-                                    {/* ============= LogOut ============= */}
+                                    <h1 className="hidden md:block text-sm uppercase font-semibold tracking-wide">
+                                        {formatAddress(address)}
+                                    </h1>
 
-                                    <div className="md:py-3 p-2 md:px-4">
-                                        <DialogTrigger className="flex gap-3 items-center">
+                                    <ChevronDown className="md:ml-1 w-4" />
+                                </DropdownMenuTrigger>
+
+                                <DropdownMenuContent
+                                    className="bg-[#3a365a] md:w-[170px] md:h-[95x] bg-opacity-20 rounded-2xl shadow backdrop-blur-lg"
+                                    style={{
+                                        border: "1.61144px solid rgba(255, 255, 255, 0.07)",
+                                        borderRadius: "12.8915px"
+                                    }}
+                                >
+                                    <Dialog>
+                                        <div className="flex gap-3 items-center md:py-3 p-2 md:px-4">
                                             <img
-                                                className="w-4 h-4"
-                                                src="/assets/logout.png"
-                                                alt="logout"
+                                                className="w-4 h-4 cursor-pointer"
+                                                src="/assets/wallet.png"
+                                                alt="wallet"
                                             />
 
-                                            <span className="text-[0.75rem] md:text-[0.82rem] text-slate-100">Logout</span>
-                                        </DialogTrigger>
+                                            <span className="text-[0.75rem] md:text-[0.82rem] text-slate-100 cursor-pointer">
+                                                Wallet
+                                            </span>
+                                        </div>
 
-                                        <DialogContent
-                                            className="w-[350px] md:w-[450px] px-3 !box shadow-lg backdrop-blur-lg"
+                                        <hr
                                             style={{
-                                                border: "2px solid rgba(255, 255, 255, 0.07)",
-                                                borderRadius: "30px"
+                                                border: "0.602144px solid #FFFFFF",
+                                                opacity: 0.1
                                             }}
-                                            closeClass="pr-3 pt-2"
-                                            close="w-7 h-7"
-                                            hide="hidden"
-                                        >
-                                            <DialogHeader className="px-4 pt-3 pb-2">
-                                                <DialogDescription>
-                                                    <h1 className="!font-normal text-[22px] text-white w-[230px] md:w-[320px] !text-left tracking-wide leading-8">
-                                                        Are you sure you want to log out?
-                                                    </h1>
-                                                </DialogDescription>
+                                        />
 
-                                                <DialogDescription className="py-4">
-                                                    <p className="!font-normal text-[0.8rem] text-white w-[210px] md:w-[320px] !text-left tracking-wide">
-                                                        You will need to sign in again to access your account.
-                                                    </p>
-                                                </DialogDescription>
+                                        {/* ============= LogOut ============= */}
 
-                                                <DialogDescription className="flex justify-end items-center gap-3 pt-3 pb-1">
-                                                    <Button className="font-bold shadow-glowBtn text-[0.75rem] px-5 py-[1.1rem] bg-[#C4514A] hover:bg-[#8b342f] text-white rounded-2xl tracking-widest border-b-4 border-[#F5645B]">
-                                                        LOG OUT
-                                                    </Button>
+                                        <div className="md:py-3 p-2 md:px-4">
+                                            <DialogTrigger className="flex gap-3 items-center">
+                                                <img
+                                                    className="w-4 h-4"
+                                                    src="/assets/logout.png"
+                                                    alt="logout"
+                                                />
 
-                                                    <Button className="font-bold shadow-glowBtn text-[0.75rem] px-5 py-[1.1rem] bg-[#63499D] hover:bg-[#4d3386] text-white rounded-2xl tracking-widest border-b-4 border-[#796B98]">
-                                                        NEVERMIND
-                                                    </Button>
-                                                </DialogDescription>
-                                            </DialogHeader>
-                                        </DialogContent>
-                                    </div>
-                                </Dialog>
-                            </DropdownMenuContent>
-                        </DropdownMenu>
-                    </div>
+                                                <span className="text-[0.75rem] md:text-[0.82rem] text-slate-100">Logout</span>
+                                            </DialogTrigger>
+
+                                            <DialogContent
+                                                className="w-[350px] md:w-[450px] px-3 !box shadow-lg backdrop-blur-lg"
+                                                style={{
+                                                    border: "2px solid rgba(255, 255, 255, 0.07)",
+                                                    borderRadius: "30px"
+                                                }}
+                                                closeClass="pr-3 pt-2"
+                                                close="w-7 h-7"
+                                                hide="hidden"
+                                            >
+                                                <DialogHeader className="px-4 pt-3 pb-2">
+                                                    <DialogDescription>
+                                                        <h1 className="!font-normal text-[22px] text-white w-[230px] md:w-[320px] !text-left tracking-wide leading-8">
+                                                            Are you sure you want to log out?
+                                                        </h1>
+                                                    </DialogDescription>
+
+                                                    <DialogDescription className="py-4">
+                                                        <p className="!font-normal text-[0.8rem] text-white w-[210px] md:w-[320px] !text-left tracking-wide">
+                                                            You will need to sign in again to access your account.
+                                                        </p>
+                                                    </DialogDescription>
+
+                                                    <DialogDescription className="flex justify-end items-center gap-3 pt-3 pb-1">
+                                                        <Button
+                                                            className="font-bold shadow-glowBtn text-[0.75rem] px-5 py-[1.1rem] bg-[#C4514A] hover:bg-[#8b342f] text-white rounded-2xl tracking-widest border-b-4 border-[#F5645B]"
+                                                            onClick={() => disconnect()}
+                                                        >
+                                                            LOG OUT
+                                                        </Button>
+
+                                                        <DialogClose className="font-bold shadow-glowBtn text-[0.75rem] pr-[1.1rem] pl-5 py-[0.5rem] bg-[#63499D] hover:bg-[#4d3386] text-white rounded-2xl tracking-widest border-b-4 border-[#796B98]">
+                                                            NEVERMIND
+                                                        </DialogClose>
+                                                    </DialogDescription>
+                                                </DialogHeader>
+                                            </DialogContent>
+                                        </div>
+                                    </Dialog>
+                                </DropdownMenuContent>
+                            </DropdownMenu>
+                        </div>
+                    )}
+
                 </div>
             </div>
         </div>

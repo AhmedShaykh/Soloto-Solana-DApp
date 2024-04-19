@@ -1,13 +1,17 @@
+import Web3ModalProvider from "@/Components/Provider";
 import { Provider } from "@/Components/ui/Provider";
 import Navbar from "@/Components/Navbar";
 import Footer from "@/Components/Footer";
+import { config } from "@/config";
+import { cookieToInitialState } from "wagmi";
+import { headers } from "next/headers";
 import { myFont } from "@/static/font";
 import { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "SOLOTO SOLANA",
-  description: "SOLOTO SOLANA",
+  title: "SOLOTO DAPP",
+  description: "SOLOTO DAPP",
   icons: {
     icon: [
       {
@@ -23,6 +27,9 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
+  const initialState = cookieToInitialState(config, headers().get("cookie"));
+
   return (
     <html lang="en" className={myFont.className}>
       <body>
@@ -32,13 +39,15 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <div className="shadowBgLight">
-            <div className="shadowBg">
-              <Navbar />
-              {children}
+          <Web3ModalProvider initialState={initialState}>
+            <div className="shadowBgLight">
+              <div className="shadowBg">
+                <Navbar />
+                {children}
+              </div>
             </div>
-          </div>
-          <Footer />
+            <Footer />
+          </Web3ModalProvider>
         </Provider>
       </body>
     </html>
